@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 import json, unicodedata
 from fastapi.responses import FileResponse
 
+# Função pra pegar essa disgrama de nome sem ficar com acento nem os carai
 def create_player_id(name):
 
     normalized = unicodedata.normalize("NFD", name)
@@ -34,20 +35,22 @@ players = {}
 
 connections = []
 
-current_hp = "0"
-
+# Vê se tá online
 @app.get("/")
 def home():
     return {"status": "online"}
 
+# Acessa painel de player
 @app.get("/player")
 def player():
     return FileResponse("frontend/player.html")
 
+# Acessa o overlay por usuário overlay/nome_do_usuario
 @app.get("/overlay/{player_name}")
 def overlay(player_name: str):
     return FileResponse("frontend/overlay.html")
 
+# man
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
 
