@@ -1,0 +1,27 @@
+# Ambiente virtual
+venv/
+
+# Cache da cobra
+__pycache__/
+
+# Bytecode Python
+*.pyc
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
+
+# Arquivos de ambiente
+.env
+
+# Logs
+*.log
+
+# Assets
+frontend/assets/portraits/*.png
