@@ -1,0 +1,1 @@
+# Olá pessoa, esse repositório está servindo pra eu guardar meu projetinho pra criar um overlay que poderá ser usado nos meus RPGs próprios que não sejam de Ordem Paranormal, porque o Cris Ordem Paranormal só aceita logicamente o sistema de Ordem. Se divirta vendo minhas burrices aí beijos
