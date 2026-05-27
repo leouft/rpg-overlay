@@ -26,6 +26,7 @@ ws.onmessage = (event) => {
             <img
                 class="portrait"
                 src="/frontend/assets/portraits/${playerName}.png"
+                onerror="this.onerror=null; this.src='https://placehold.co/200x200';"
             >
 
             <div class="energy-circle">
