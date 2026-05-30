@@ -14,7 +14,7 @@ load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-CHANNEL_ID = os.getenv("DISCORD_CHANNEL")
+CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL"))
 
 intents = discord.Intents.all()
 
@@ -33,18 +33,44 @@ def parse_sheet(content):
 
     return {
         "displayName":
-            lines[0],
+            lines[0].strip(),
+
         "peCurrent":
-            int(lines[1].split(":")[1]),
+            int(lines[1].split(":")[1].strip()),
+
         "peMax":
-            int(lines[2].split(":")[1]),
+            int(lines[2].split(":")[1].strip()),
+
         "knockout":
-            int(lines[3].split(":")[1]),
+            int(lines[3].split(":")[1].strip()),
+
         "courage":
-            int(lines[4].split(":")[1]),
+            int(lines[4].split(":")[1].strip()),
     }
 
+def is_sheet(content):
+
+    lines = content.splitlines()
+
+    return (
+        len(lines) >= 5
+        and lines[1].upper().startswith("PE:")
+        and lines[2].upper().startswith("PE MÁXIMO:")
+        and lines[3].upper().startswith("VEZES FORA DE AÇÃO:")
+        and lines[4].upper().startswith("CORAGEM:")
+    )
+
 async def process_sheet(message):
+
+    print("Mensagem recebida.")
+
+    if not is_sheet(message.content):
+
+        print("Não é uma ficha.")
+
+        return
+
+    print("É uma ficha.")
 
     data = parse_sheet(
         message.content
@@ -59,6 +85,8 @@ async def process_sheet(message):
     print(players)
 
     await broadcast_players()
+
+    print("Broadcast enviado.")
 
 @bot.event
 async def on_ready():
@@ -87,6 +115,12 @@ async def on_ready():
 
 @bot.event
 async def on_message_edit(before, after):
+
+    print("EDIT DETECTADO")
+    print(after.channel.id)
+
+    if after.channel.id != CHANNEL_ID:
+        return
 
     try:
 
