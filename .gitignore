@@ -25,3 +25,6 @@ Thumbs.db
 
 # Assets
 frontend/assets/portraits/*GIT.png
+
+#Env
+*.env

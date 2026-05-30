@@ -1,39 +1,29 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.staticfiles import StaticFiles
-import json, unicodedata
+import asyncio, json
 from fastapi.responses import FileResponse
-
-# Função pra pegar essa disgrama de nome sem ficar com acento nem os carai
-def create_player_id(name):
-
-    normalized = unicodedata.normalize("NFD", name)
-
-    no_accents = "".join(
-
-        char for char in normalized
-
-        if unicodedata.category(char) != "Mn"
-
-    )
-
-    return (
-        no_accents
-        .strip()
-        .lower()
-        .replace(" ", "_")
-    )
+from backend.state import (
+    players,
+    connections,
+    broadcast_players
+)
+from backend.utils import create_player_id
+from backend.bot import start_bot
 
 app = FastAPI()
+
+@app.on_event("startup")
+async def startup_event():
+
+    asyncio.create_task(
+        start_bot()
+    )
 
 app.mount(
     "/frontend",
     StaticFiles(directory="frontend"),
     name="frontend"
 )
-
-players = {}
-
-connections = []
 
 # Vê se tá online
 @app.get("/")
@@ -74,22 +64,17 @@ async def websocket_endpoint(websocket: WebSocket):
 
             players[player_id] = {
                 "displayName": data["player"],
-                "hp": data["hp"],
-                "maxHp": data["maxHp"],
+                "peCurrent": data["peCurrent"],
+                "peMax": data["peMax"],
 
-                "mental": data["mental"],
-                "maxMental": data["maxMental"],
+                "knockout": data["knockout"],
 
-                "energy": data["energy"]
+                "courage": data["courage"]
             }
 
             print(players)
 
-            for connection in connections:
-
-                await connection.send_text(
-                    json.dumps(players)
-                )
+            await broadcast_players()
 
     except:
         connections.remove(websocket)

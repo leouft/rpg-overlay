@@ -17,6 +17,8 @@ ws.onmessage = (event) => {
 
     if (!player) return
 
+    console.log(player)
+
     document.body.innerHTML = `
 
     <div class="overlay">
@@ -29,9 +31,9 @@ ws.onmessage = (event) => {
                 onerror="this.onerror=null; this.src='https://placehold.co/200x200';"
             >
 
-            <div class="energy-circle">
+            <div class="courage-circle">
 
-                ${player.energy}
+                ${player.courage}
 
             </div>
 
@@ -46,18 +48,18 @@ ws.onmessage = (event) => {
             <div class="bar">
 
                 <div
-                    class="fill hp-fill"
+                    class="fill pe-fill"
                     style="
                         width:
-                        ${(player.hp / player.maxHp) * 100}%
+                        ${(player.peCurrent / player.peMax) * 100}%
                     "
                 ></div>
 
                 <div class="bar-text">
-                    HP:
-                    ${player.hp}
+                    PE:
+                    ${player.peCurrent}
                     /
-                    ${player.maxHp}
+                    ${player.peMax}
                 </div>
 
             </div>
@@ -65,18 +67,18 @@ ws.onmessage = (event) => {
             <div class="bar">
 
                 <div
-                    class="fill mental-fill"
+                    class="fill knockout-fill"
                     style="
                         width:
-                        ${(player.mental / player.maxMental) * 100}%
+                        ${(player.knockout / 3) * 100}%
                     "
                 ></div>
 
                 <div class="bar-text">
-                    Mental:
-                    ${player.mental}
+                    Fora de ação:
+                    ${player.knockout}
                     /
-                    ${player.maxMental}
+                    ${3}
                 </div>
 
             </div>

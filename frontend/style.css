@@ -33,7 +33,7 @@ body {
     flex-shrink: 0;
 }
 
-.energy-circle {
+.courage-circle {
 
     position: absolute;
 
@@ -143,7 +143,7 @@ body {
         width 0.35s ease;
 }
 
-.hp-fill {
+.pe-fill {
 
     background:
         linear-gradient(
@@ -156,7 +156,7 @@ body {
         0 0 15px rgba(255,0,0,0.5);
 }
 
-.mental-fill {
+.knockout-fill {
 
     background:
         linear-gradient(
